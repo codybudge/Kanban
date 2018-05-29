@@ -1,5 +1,16 @@
 <template>
   <div class="container-fluid Home">
+<button @click="getBoards">boards</button>
+{{boards}}
+<form @submit.prevent="newBoard(board)">
+<textarea v-model='board'></textarea>
+<button type="submit">add</button>
+</form>
+
+<form @submit.prevent="deleteBoard(boardId)">
+<input type="text" v-model="boardId">
+<button type="submit">delete</button>
+</form>
 
   </div>
 </template>
@@ -9,7 +20,31 @@ export default {
   name: 'Home',
   data () {
     return {
+      board:'',
+      boardId: ''
     }
+  },
+  computed:{
+    boards(){
+      return this.$store.state.boards
+    }
+  },
+  methods:{
+    getBoards() {
+      this.$store.dispatch('getBoards')
+    },
+
+    editBoard(changedBoard) {
+      this.$store.dispatch('editBoard', JSON.parse(changedBoard))//remove JSON.parse
+    },
+
+    newBoard(newBoard) {
+      this.$store.dispatch('newBoard', JSON.parse(newBoard))//remove JSON.parse
+    },
+
+    deleteBoard(boardId) {
+      this.$store.dispatch('deleteBoard', boardId)
+    },
   }
 }
 </script>

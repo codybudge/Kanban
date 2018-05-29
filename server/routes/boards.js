@@ -39,7 +39,7 @@ router.post('/api/boards/', (req, res) => {
 //DELETE
 router.delete('/api/boards/:id', (req, res) => {
   Boards.findByIdAndRemove(req.params.id)
-  .then(res => {
+  .then(() => {
     res.send("Deleted!")
   })
   .catch(err => {
