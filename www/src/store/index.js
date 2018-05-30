@@ -83,8 +83,9 @@ export default new vuex.Store({
 
     //app stuff
     //get all boards
-    getBoards({ dispatch, commit }, ) {
-      api.get("/api/boards")
+    getBoards({dispatch, commit, state}, ) {
+      console.log(state.user._id)
+      api.get("/api/boards/"+state.user._id)
         .then(res => {
           console.log(res)
           commit('setBoards', res.data)

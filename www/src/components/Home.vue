@@ -1,6 +1,8 @@
 <template>
   <div class="container-fluid Home">
 <button @click="logout">logout</button>
+<button @click="getBoards">boards</button>
+{{boards}}
   </div>
 </template>
 
