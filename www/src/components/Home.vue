@@ -1,16 +1,5 @@
 <template>
   <div class="container-fluid Home">
-<button @click="getBoards">boards</button>
-{{boards}}
-<form @submit.prevent="newBoard(board)">
-<textarea v-model='board'></textarea>
-<button type="submit">add</button>
-</form>
-
-<form @submit.prevent="deleteBoard(boardId)">
-<input type="text" v-model="boardId">
-<button type="submit">delete</button>
-</form>
 
   </div>
 </template>

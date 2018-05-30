@@ -9,14 +9,25 @@ app.use(cors())
 require('./db')
 
 
+var whitelist = ['http://localhost:8080'];
+var corsOptions = {
+	origin: function (origin, callback) {
+		var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+		callback(null, originIsWhitelisted);
+	},
+	credentials: true
+};
+app.use(cors(corsOptions))
+
+
 //REGISTER MIDDLEWEAR
 app.use(bp.json())
 app.use(bp.urlencoded({ 
   extended: true}))
 
-//   let auth = require('./auth/routes')
-// app.use(auth.session)
-// app.use(auth.router)
+  let auth = require('./auth/routes')
+app.use(auth.session)
+app.use(auth.router)
 
 var boards = require('./routes/boards')
 var lists = require('./routes/lists')
