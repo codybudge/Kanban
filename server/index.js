@@ -3,8 +3,8 @@ var bp = require('body-parser')
 var app = express()
 var cors = require('cors')
 var port = 3000
-
 app.use(cors())
+
 //Fire up database connection
 require('./db')
 
@@ -29,10 +29,22 @@ app.use(bp.urlencoded({
 app.use(auth.session)
 app.use(auth.router)
 
+//gateKeeper
+app.use((req,res,next)=>{
+  if (!req.session.uid) {
+    return res.status(401).send({
+      error: 'please login to continue'
+    })
+  }
+  next()
+})
+
 var boards = require('./routes/boards')
 var lists = require('./routes/lists')
 var tasks = require('./routes/tasks')
 var comments = require('./routes/comments')
+
+
 
 app.use(boards.router)
 app.use(lists.router)
