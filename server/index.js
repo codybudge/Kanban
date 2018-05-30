@@ -3,7 +3,6 @@ var bp = require('body-parser')
 var app = express()
 var cors = require('cors')
 var port = 3000
-app.use(cors())
 
 //Fire up database connection
 require('./db')

@@ -1,12 +1,20 @@
 <template>
   <div class="container-fluid Home">
-
+<button @click="logout">logout</button>
   </div>
 </template>
 
 <script>
+
+import router from '../router'
+
 export default {
   name: 'Home',
+  mounted(){
+    if (!this.$store.state.user._id){
+      router.push({name: 'Login'})
+    }
+  },
   data () {
     return {
       board:'',
@@ -19,6 +27,9 @@ export default {
     }
   },
   methods:{
+    logout(){
+      this.$store.dispatch('logout')
+    },
     getBoards() {
       this.$store.dispatch('getBoards')
     },
