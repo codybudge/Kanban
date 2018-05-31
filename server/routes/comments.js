@@ -39,7 +39,7 @@ Comments.create(req.body)
 //DELETE
 router.delete('/api/comments/:id', (req, res) => {
   Comments.findByIdAndRemove(req.params.id)
-  .then(res => {
+  .then(() => {
     res.send("Deleted!")
   })
   .catch(err => {

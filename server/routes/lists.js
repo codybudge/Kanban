@@ -39,13 +39,15 @@ router.post('/api/lists/', (req, res) => {
 //DELETE
 router.delete('/api/lists/:id', (req, res) => {
   Lists.findByIdAndRemove(req.params.id)
-  .then(res => {
+  .then(() => {
     res.send("Deleted!")
   })
   .catch(err => {
     res.status(400).send(err)
   })
 })
+
+
 
 module.exports = {
   router

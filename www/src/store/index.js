@@ -22,22 +22,28 @@ export default new vuex.Store({
   state: {
     user: {},
     boards: [],
-
-
+    currentBoard:{},
+    lists:[]
   },
   mutations: {
     setBoards(state, boards) {
       state.boards = boards
+    },
+    setBoard(state, board) {
+      state.currentBoard = board
     },
     setUser(state, user) {
       state.user = user
     },
     deleteUser(state) {
       state.user = {}
+    },
+    setLists(state, lists){
+      state.lists = lists
     }
   },
   actions: {
-    //AUTH STUFF
+    //AUTH STUFF-------------------------------------------------------------------
     login({ commit, dispatch }, loginCredentials) {
       auth.post('login', loginCredentials)
         .then(res => {
@@ -81,7 +87,9 @@ export default new vuex.Store({
         })
     },
 
-    //app stuff
+    //app stuff-----------------------------------------------------------------------------
+
+    //board stuff++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //get all boards
     getBoards({dispatch, commit, state}, ) {
       console.log(state.user._id)
@@ -121,6 +129,40 @@ export default new vuex.Store({
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
     },
+
+    setBoard({dispatch, commit}, board) {
+      commit('setBoard', board)
+    },
+
+    //list stuff +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    getLists({dispatch, commit, state}){
+      api.get('/api/lists/'+state.currentBoard._id)
+      .then(res =>{
+        console.log(res)
+        commit('setLists', res.data)
+      })
+      .catch(err => console.log(err))
+    },
+
+    addList({dispatch, commit, state}, newList){
+      api.post('/api/lists/', newList)
+      .then(res=>{
+        // commit('setLists', res.data)
+        dispatch('getLists')
+      })
+      .catch(err => console.log(err))
+    },
+
+    deleteList({ dispatch, commit, state }, listId) {
+      api.delete('/api/lists/' + listId)
+        .then(res => {
+          console.log("deleted")
+           return dispatch('getLists')
+          // commit('setBoard', res.data)
+        }).catch(err => console.log(err))
+    },
+
 
   }
 })

@@ -77,8 +77,8 @@
         this.$store.dispatch('deleteBoard', boardId)
       }, 
       boardDetail(board){
-        router.push({name: 'BoardDetail',
-                    params: {board: board}})
+        this.$store.dispatch('setBoard', board)
+        router.push({name: 'BoardDetail'})
       }
     }
   }

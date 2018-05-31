@@ -1,20 +1,31 @@
 <template>
   <div class="boardDetail container-fluid">
-    {{board.title}}
-{{board._id}}
+    <h1>{{board.title}}</h1>
+    <h5>{{board.body}}</h5>
+    <list></list>
+
   </div>
 </template>
 
 <script>
+import list from './list.vue'
+
   export default {
     name: 'boardDetail',
+    components:{
+      list,
+    },
     data() {
       return {
-       board: this.$route.params.board
+       
 
       }
     },
-    computed: {},
+    computed: {
+      board(){
+        return this.$store.state.currentBoard
+      }
+    },
     methods: {},
     props:{
       
