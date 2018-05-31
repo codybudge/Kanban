@@ -33,6 +33,7 @@ export default new vuex.Store({
       state.boards = boards
     },
     setBoard(state, board) {
+      vue.set(state, 'currentBoard', board)
       state.currentBoard = board
     },
     setUser(state, user) {
@@ -45,10 +46,13 @@ export default new vuex.Store({
       state.lists = lists
     },
     setTasks(state, tasks){
-      vue.set(state.taskObj, tasks[0].listId, tasks)
+      if (tasks[0]){
+      vue.set(state.taskObj, tasks[0].listId, tasks)}
     },
     setComments(state, comments){
+      if (comments[0]){
       vue.set(state.commentObj, comments[0].taskId, comments)
+    }
     }
   },
   actions: {

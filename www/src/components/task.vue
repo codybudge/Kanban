@@ -39,7 +39,8 @@ import comments from "./comment.vue"
           userId: this.$store.state.user._id,
           boardId: this.$store.state.currentBoard._id,
           listId: this.listId
-        }
+        },
+        editedTask:{}
 
       }
     },
@@ -57,7 +58,10 @@ import comments from "./comment.vue"
       },
       deleteTask(task){
         this.$store.dispatch('deleteTask', task)
-      }
+      },
+      // editTask(editedTask, listId){
+      //   this.$store.dispatch('deleteTask', editedTask)
+      // }
     },
    
   }
