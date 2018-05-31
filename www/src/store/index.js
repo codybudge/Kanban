@@ -107,6 +107,7 @@ export default new vuex.Store({
       api.post('/api/boards/', board)
         .then(res => {
           console.log(res)
+          dispatch('getBoards')
           //real content here
         })
     },
@@ -116,6 +117,7 @@ export default new vuex.Store({
       api.delete('/api/boards/' + boardId)
         .then(res => {
           console.log("deleted")
+          dispatch('getBoards')
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
     },
