@@ -2,8 +2,8 @@ var router = require('express').Router()
 var Boards = require('../models/board')
 
 //GET ALL
-router.get('/api/boards', (req, res, next) => {
-  Boards.find({})
+router.get('/api/boards/:id', (req, res, next) => {
+  Boards.find({userId: req.params.id})
   .then(boards => {
     res.send(boards)
   })

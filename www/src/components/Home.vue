@@ -1,12 +1,26 @@
 <template>
   <div class="container-fluid Home">
+<<<<<<< HEAD
  
+=======
+<button @click="logout">logout</button>
+<button @click="getBoards">boards</button>
+{{boards}}
+>>>>>>> dd2758b62168d0a24fb0c1913c36527450667ad5
   </div>
 </template>
 
 <script>
+
+import router from '../router'
+
 export default {
   name: 'Home',
+  mounted(){
+    if (!this.$store.state.user._id){
+      router.push({name: 'Login'})
+    }
+  },
   data () {
     return {
       board:'',
@@ -19,6 +33,9 @@ export default {
     }
   },
   methods:{
+    logout(){
+      this.$store.dispatch('logout')
+    },
     getBoards() {
       this.$store.dispatch('getBoards')
     },
