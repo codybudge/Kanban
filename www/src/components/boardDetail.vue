@@ -34,7 +34,8 @@ import list from './list.vue'
 
 </script>
 
-<style>
-
-
-</style>
+<style scoped>
+    .boardDetail{
+      background-color: purple;
+    }
+  </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="list">
 
     <form @submit.prevent="addList(newList)" v-if="clicked">
       <input type="text" v-model="newList.title" placeholder="Title" required>
@@ -10,13 +10,14 @@
     </form>
     <button @click="click">new List</button>
 
-    <div class="card" v-for="list in lists">
+    <div class="card list" v-for="list in lists">
       <div class="card-title">
         <h4>{{list.title}}</h4>
       </div>
       <div class="card-body">
         <h5>{{list.body}}</h5>
         tasks here
+        <tasks :listId="list._id"></tasks>
       </div>
       <div class="card-text">
         <p>{{list.userName}}</p>
@@ -30,8 +31,13 @@
 </template>
 
 <script>
+import tasks from './task.vue'
+
   export default {
     name: 'List',
+    components:{
+      tasks,
+    },
     mounted() {
       this.getLists()
     },
@@ -76,5 +82,8 @@
 
 </script>
 
-<style>
-</style>
+<style scoped>
+    .list{
+      background-color: green;
+    }
+  </style>

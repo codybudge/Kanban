@@ -23,7 +23,10 @@ export default new vuex.Store({
     user: {},
     boards: [],
     currentBoard:{},
-    lists:[]
+    lists:[],
+    taskObj: {},
+    commentObj:{}
+
   },
   mutations: {
     setBoards(state, boards) {
@@ -40,6 +43,12 @@ export default new vuex.Store({
     },
     setLists(state, lists){
       state.lists = lists
+    },
+    setTasks(state, tasks){
+      vue.set(state.taskObj, tasks[0].listId, tasks)
+    },
+    setComments(state, comments){
+      vue.set(state.commentObj, comments[0].taskId, comments)
     }
   },
   actions: {
@@ -158,11 +167,67 @@ export default new vuex.Store({
       api.delete('/api/lists/' + listId)
         .then(res => {
           console.log("deleted")
-           return dispatch('getLists')
+           dispatch('getLists')
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
     },
 
+    //Task stuff ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    getTasks({dispatch, commit, state}, listId){
+      api.get('/api/tasks/'+listId)
+      .then(res =>{
+        console.log(res)
+        commit('setTasks', res.data)
+        console.log("objet"+ state.taskObj[res.data.listId])
+      })
+      .catch(err => console.log(err))
+    },
+
+    addTask({dispatch, commit, state}, newTask){
+      api.post('/api/tasks/', newTask)
+      .then(res=>{
+        // commit('setLists', res.data)
+        dispatch('getTasks', newTask.listId)
+      })
+      .catch(err => console.log(err))
+    },
+
+    deleteTask({ dispatch, commit, state }, task) {
+      api.delete('/api/tasks/' + task._id)
+        .then(res => {
+          console.log("deleted")
+           dispatch('getTasks', task.listId)
+          // commit('setBoard', res.data)
+        }).catch(err => console.log(err))
+    },
+    //Comment Stuff ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    getComments({dispatch, commit, state}, taskId){
+      api.get('/api/comments/'+taskId)
+      .then(res =>{
+        console.log(res)
+        commit('setComments', res.data)
+        
+      })
+      .catch(err => console.log(err))
+    },
+
+    addComment({dispatch, commit, state}, newComment){
+      api.post('/api/comments/', newComment)
+      .then(res=>{
+        // commit('setLists', res.data)
+        dispatch('getComments', newComment.taskId)
+      })
+      .catch(err => console.log(err))
+    },
+
+    deleteComment({ dispatch, commit, state }, comment) {
+      api.delete('/api/comments/' + comment._id)
+        .then(res => {
+          console.log("deleted")
+           dispatch('getComments', comment.taskId)
+          // commit('setBoard', res.data)
+        }).catch(err => console.log(err))
+    },
 
   }
 })
