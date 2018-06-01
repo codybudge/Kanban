@@ -1,10 +1,10 @@
 var express = require('express')
 var bp = require('body-parser')
 var app = express()
+let server = require('http').createServer(app)
 var cors = require('cors')
 var port = process.env.PORT || 3000
 
-app.use(express.static(__dirname+"../www/dist"))
 
 
 
@@ -14,14 +14,15 @@ require('./db')
 
 var whitelist = ['http://localhost:8080', 'https://ej-kanban.herokuapp.com'];
 var corsOptions = {
-	origin: function (origin, callback) {
-		var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+  origin: function (origin, callback) {
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
 		callback(null, originIsWhitelisted);
 	},
 	credentials: true
 };
 app.use(cors(corsOptions))
 
+app.use(express.static(__dirname+"/../www/dist"))
 
 //REGISTER MIDDLEWEAR
 app.use(bp.json())
