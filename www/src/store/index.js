@@ -3,15 +3,17 @@ import vuex from 'vuex'
 import axios from 'axios'
 import router from "../router"
 
+var production = !window.location.host.includes('localhost');
+var baseUrl = production ? '//ej-kanban.herokuapp.com/' : '//localhost:3000/';
 
 let api = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: baseUrl,
   timeout: 3000,
   withCredentials: true
 })
 
 let auth = axios.create({
-  baseURL: 'http://localhost:3000/auth/',
+  baseURL: baseUrl + 'auth/',
   timeout: 3000,
   withCredentials: true
 })
