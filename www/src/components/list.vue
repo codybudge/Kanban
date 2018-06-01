@@ -1,14 +1,38 @@
 <template>
   <div class="list">
 
-    <form @submit.prevent="addList(newList)" v-if="clicked">
-      <input type="text" v-model="newList.title" placeholder="Title" required>
-      <br>
-      <textarea v-model="newList.body" placeholder="Your List description here" cols="22" rows="5"></textarea>
-      <br>
-      <button type="submit">Submit</button>
-    </form>
-    <button @click="click">new List</button>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ListModal">
+    New List
+   </button>
+
+   <!-- Modal -->
+   <div class="modal fade" id="ListModal" tabindex="-1" role="dialog" aria-labelledby="ListModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="ListModalLabel">New Task</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+            <form @submit.prevent="addList(newList)">
+                <input type="text" v-model="newList.title" placeholder="Title" required>
+                <br>
+                <textarea v-model="newList.body" placeholder="Your List description here" cols="22" rows="5"></textarea>
+                <br>
+                <button type="submit">Submit</button>
+              </form>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           
+         </div>
+       </div>
+     </div>
+   </div>
 
     <div class="card list" v-for="list in lists">
       <div class="card-title">
@@ -43,7 +67,6 @@ import tasks from './task.vue'
     },
     data() {
       return {
-        clicked: false,
         newList: {
           title: '',
           body: '',
@@ -63,11 +86,6 @@ import tasks from './task.vue'
       }
     },
     methods: {
-      click() {
-        this.clicked = !this.clicked
-        this.newList.title = ''
-        this.newList.body = ''
-      },
       getLists() {
         this.$store.dispatch('getLists')
       },
@@ -75,7 +93,8 @@ import tasks from './task.vue'
       addList(list) {
         var theList = JSON.parse(JSON.stringify(list))
         this.$store.dispatch('addList', theList)
-        this.click()
+        this.newList.title = ''
+        this.newList.body = ''
       },
       deleteList(listId) {
         this.$store.dispatch('deleteList', listId)

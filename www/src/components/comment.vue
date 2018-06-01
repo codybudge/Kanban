@@ -1,13 +1,43 @@
 <template>
   <div class="comment">
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#' + taskId">
+    New Comment
+   </button>
+
+   <!-- Modal -->
+   <div class="modal fade" :id="taskId" tabindex="-1" role="dialog" aria-labelledby="TaskModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="TaskModalLabel">New Comment</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+            <form @submit.prevent="addComment(newComment)">
+                <input type="text" v-model="newComment.title">
+                <button type="submit">Create Comment</button>
+              </form> 
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           
+         </div>
+       </div>
+     </div>
+   </div>
+
+
+
+
     <div v-for="comment in comments">
       comment: {{comment.title}}
       <button class="btn-danger" @click="deleteComment(comment)">x</button>
     </div>
-    <form @submit.prevent="addComment(newComment)">
-      <input type="text" v-model="newComment.title">
-      <button class="btn-info" type="submit">comment</button>
-    </form>
   </div>
 </template>
 

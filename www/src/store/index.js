@@ -45,30 +45,26 @@ export default new vuex.Store({
     setLists(state, lists) {
       state.lists = lists
     },
-    setTasks(state, tasks) {
+    setTasks(state, payload) {
       //finds and removes duplicate tasks!
       for (let key in state.taskObj) {
         for (let i = 0; i < state.taskObj[key].length; i++) {
           const element = state.taskObj[key][i];
-          for (let x = 0; x < tasks.length; x++) {
-            const task = tasks[x];
+          for (let x = 0; x < payload.data.length; x++) {
+            const task = payload.data[x];
             if (element._id == task._id) {
               state.taskObj[key].splice(i, 1)
             }
           }
         }
       }
-
-      if (tasks[0]) {
-        vue.set(state.taskObj, tasks[0].listId, tasks)
-      }
+        vue.set(state.taskObj, payload.listId, payload.data)
+      
 
     },
-    setComments(state, comments) {
-      if (comments[0]) {
-        vue.set(state.commentObj, comments[0].taskId, comments)
+    setComments(state, payload) {
+        vue.set(state.commentObj, payload.taskId, payload.data)
       }
-    }
   },
   actions: {
     //AUTH STUFF-------------------------------------------------------------------
@@ -203,7 +199,7 @@ export default new vuex.Store({
       api.get('/api/tasks/' + listId)
         .then(res => {
           console.log(res)
-          commit('setTasks', res.data)
+          commit('setTasks', {listId: listId , data: res.data})
           console.log("objet" + state.taskObj[res.data.listId])
         })
         .catch(err => console.log(err))
@@ -241,7 +237,7 @@ export default new vuex.Store({
       api.get('/api/comments/' + taskId)
         .then(res => {
           console.log(res)
-          commit('setComments', res.data)
+          commit('setComments', {taskId: taskId ,data: res.data})
 
         })
         .catch(err => console.log(err))
