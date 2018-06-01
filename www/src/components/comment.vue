@@ -42,7 +42,10 @@
       },
 
       addComment(comment) {
-        this.$store.dispatch('addComment', comment)
+        var theComment = JSON.parse(JSON.stringify(comment))
+        this.newComment.title = ''
+        this.newComment.body = ''
+        this.$store.dispatch('addComment', theComment)
       },
 
       deleteComment(comment) {
@@ -65,6 +68,6 @@
 
 <style scoped>
   .comment{
-    background-color: orangered;
+    background-color: rgb(184, 91, 57);
   }
 </style>

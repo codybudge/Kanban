@@ -60,10 +60,12 @@
     methods: {
       click() {
         this.clicked = !this.clicked
+        this.newBoard.title = ''
+        this.newBoard.body= ''
       },
       createBoard(board){
-
-        this.$store.dispatch('newBoard', board)
+        var theBoard = JSON.parse(JSON.stringify(board))
+        this.$store.dispatch('newBoard', theBoard)
         this.click()
         
         //messes up the title(deletes it)

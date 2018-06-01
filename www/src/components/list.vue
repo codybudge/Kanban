@@ -65,13 +65,16 @@ import tasks from './task.vue'
     methods: {
       click() {
         this.clicked = !this.clicked
+        this.newList.title = ''
+        this.newList.body = ''
       },
       getLists() {
         this.$store.dispatch('getLists')
       },
 
       addList(list) {
-        this.$store.dispatch('addList', list)
+        var theList = JSON.parse(JSON.stringify(list))
+        this.$store.dispatch('addList', theList)
         this.click()
       },
       deleteList(listId) {
@@ -84,6 +87,6 @@ import tasks from './task.vue'
 
 <style scoped>
     .list{
-      background-color: green;
+      background-color: rgb(66, 133, 66);
     }
   </style>

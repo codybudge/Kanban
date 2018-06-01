@@ -42,6 +42,6 @@ import list from './list.vue'
 
 <style scoped>
     .boardDetail{
-      background-color: purple;
+      background-color: rgb(92, 56, 92);
     }
   </style>

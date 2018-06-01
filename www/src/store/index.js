@@ -22,10 +22,10 @@ export default new vuex.Store({
   state: {
     user: {},
     boards: [],
-    currentBoard:{},
-    lists:[],
+    currentBoard: {},
+    lists: [],
     taskObj: {},
-    commentObj:{}
+    commentObj: {}
 
   },
   mutations: {
@@ -42,17 +42,32 @@ export default new vuex.Store({
     deleteUser(state) {
       state.user = {}
     },
-    setLists(state, lists){
+    setLists(state, lists) {
       state.lists = lists
     },
-    setTasks(state, tasks){
-      if (tasks[0]){
-      vue.set(state.taskObj, tasks[0].listId, tasks)}
+    setTasks(state, tasks) {
+      //finds and removes duplicate tasks!
+      for (let key in state.taskObj) {
+        for (let i = 0; i < state.taskObj[key].length; i++) {
+          const element = state.taskObj[key][i];
+          for (let x = 0; x < tasks.length; x++) {
+            const task = tasks[x];
+            if (element._id == task._id) {
+              state.taskObj[key].splice(i, 1)
+            }
+          }
+        }
+      }
+
+      if (tasks[0]) {
+        vue.set(state.taskObj, tasks[0].listId, tasks)
+      }
+
     },
-    setComments(state, comments){
-      if (comments[0]){
-      vue.set(state.commentObj, comments[0].taskId, comments)
-    }
+    setComments(state, comments) {
+      if (comments[0]) {
+        vue.set(state.commentObj, comments[0].taskId, comments)
+      }
     }
   },
   actions: {
@@ -66,27 +81,27 @@ export default new vuex.Store({
     },
 
     logout({ commit, dispatch }) {
-     auth.delete('logout',)
-     .then(res=>{
-       console.log(res)
-       commit('deleteUser')
-       router.push({name: 'Login'})
-     })
-     .catch(res => {
-      console.log(res.data)
-    })
+      auth.delete('logout', )
+        .then(res => {
+          console.log(res)
+          commit('deleteUser')
+          router.push({ name: 'Login' })
+        })
+        .catch(res => {
+          console.log(res.data)
+        })
     },
 
     register({ commit, dispatch }, userData) {
       console.log(userData)
       auth.post('/register/', userData)
-      .then(res =>{
-        commit('setUser', res.data)
-        router.push({name: 'Home'})
-      })
-      .catch(res => {
-        console.log(res.data)
-      })
+        .then(res => {
+          commit('setUser', res.data)
+          router.push({ name: 'Home' })
+        })
+        .catch(res => {
+          console.log(res.data)
+        })
     },
 
     authenticate({ commit, dispatch }) {
@@ -104,9 +119,9 @@ export default new vuex.Store({
 
     //board stuff++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //get all boards
-    getBoards({dispatch, commit, state}, ) {
+    getBoards({ dispatch, commit, state }, ) {
       console.log(state.user._id)
-      api.get("/api/boards/"+state.user._id)
+      api.get("/api/boards/" + state.user._id)
         .then(res => {
           console.log(res)
           commit('setBoards', res.data)
@@ -143,103 +158,109 @@ export default new vuex.Store({
         }).catch(err => console.log(err))
     },
 
-    setBoard({dispatch, commit}, board) {
+    setBoard({ dispatch, commit }, board) {
       commit('setBoard', board)
     },
 
     //list stuff +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    getLists({dispatch, commit, state}){
-      api.get('/api/lists/'+state.currentBoard._id)
-      .then(res =>{
-        console.log(res)
-        commit('setLists', res.data)
-      })
-      .catch(err => console.log(err))
+    getLists({ dispatch, commit, state }) {
+      api.get('/api/lists/' + state.currentBoard._id)
+        .then(res => {
+          console.log(res)
+          commit('setLists', res.data)
+        })
+        .catch(err => console.log(err))
     },
 
-    addList({dispatch, commit, state}, newList){
+    addList({ dispatch, commit, state }, newList) {
       api.post('/api/lists/', newList)
-      .then(res=>{
-        // commit('setLists', res.data)
-        dispatch('getLists')
-      })
-      .catch(err => console.log(err))
+        .then(res => {
+          // commit('setLists', res.data)
+          dispatch('getLists')
+        })
+        .catch(err => console.log(err))
     },
 
     deleteList({ dispatch, commit, state }, listId) {
       api.delete('/api/lists/' + listId)
         .then(res => {
           console.log("deleted")
-           dispatch('getLists')
+          dispatch('getLists')
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
     },
 
-    editList({dispatch, commit, state}, list){
-      api.put('/api/lists/'+list._id)
-      .then(res=>{
-        dispatch('getlists')
-      }).catch(err => console.log(err))
+    editList({ dispatch, commit, state }, list) {
+      api.put('/api/lists/' + list._id)
+        .then(res => {
+          dispatch('getlists')
+        }).catch(err => console.log(err))
     },
 
     //Task stuff ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    getTasks({dispatch, commit, state}, listId){
-      api.get('/api/tasks/'+listId)
-      .then(res =>{
-        console.log(res)
-        commit('setTasks', res.data)
-        console.log("objet"+ state.taskObj[res.data.listId])
-      })
-      .catch(err => console.log(err))
+    getTasks({ dispatch, commit, state }, listId) {
+      api.get('/api/tasks/' + listId)
+        .then(res => {
+          console.log(res)
+          commit('setTasks', res.data)
+          console.log("objet" + state.taskObj[res.data.listId])
+        })
+        .catch(err => console.log(err))
     },
 
-    addTask({dispatch, commit, state}, newTask){
+    addTask({ dispatch, commit, state }, newTask) {
       api.post('/api/tasks/', newTask)
-      .then(res=>{
-        // commit('setLists', res.data)
-        dispatch('getTasks', newTask.listId)
-      })
-      .catch(err => console.log(err))
+        .then(res => {
+          // commit('setLists', res.data)
+          dispatch('getTasks', newTask.listId)
+        })
+        .catch(err => console.log(err))
     },
 
     deleteTask({ dispatch, commit, state }, task) {
       api.delete('/api/tasks/' + task._id)
         .then(res => {
           console.log("deleted")
-           dispatch('getTasks', task.listId)
+          dispatch('getTasks', task.listId)
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
     },
 
-    editTask({dispatch, commit, state}, task){
-
+    editTask({ dispatch, commit, state }, task) {
+      console.log(task)
+      api.put('/api/tasks/' + task._id, task)
+        .then(res => {
+          console.log(res)
+          dispatch('getTasks', task.listId)
+        }).catch(err => console.log(err))
     },
+
     //Comment Stuff ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    getComments({dispatch, commit, state}, taskId){
-      api.get('/api/comments/'+taskId)
-      .then(res =>{
-        console.log(res)
-        commit('setComments', res.data)
-        
-      })
-      .catch(err => console.log(err))
+    getComments({ dispatch, commit, state }, taskId) {
+      api.get('/api/comments/' + taskId)
+        .then(res => {
+          console.log(res)
+          commit('setComments', res.data)
+
+        })
+        .catch(err => console.log(err))
     },
 
-    addComment({dispatch, commit, state}, newComment){
+    addComment({ dispatch, commit, state }, newComment) {
       api.post('/api/comments/', newComment)
-      .then(res=>{
-        // commit('setLists', res.data)
-        dispatch('getComments', newComment.taskId)
-      })
-      .catch(err => console.log(err))
+        .then(res => {
+          // commit('setLists', res.data)
+          dispatch('getComments', newComment.taskId)
+        })
+        .catch(err => console.log(err))
     },
 
     deleteComment({ dispatch, commit, state }, comment) {
       api.delete('/api/comments/' + comment._id)
         .then(res => {
           console.log("deleted")
-           dispatch('getComments', comment.taskId)
+          dispatch('getComments', comment.taskId)
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
     },
