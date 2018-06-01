@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid Home">
+    {{curentUser.name}}
     <button @click="logout">logout</button>
     <board></board>
   </div>
