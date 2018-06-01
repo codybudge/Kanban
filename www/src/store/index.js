@@ -176,6 +176,13 @@ export default new vuex.Store({
         }).catch(err => console.log(err))
     },
 
+    editList({dispatch, commit, state}, list){
+      api.put('/api/lists/'+list._id)
+      .then(res=>{
+        dispatch('getlists')
+      }).catch(err => console.log(err))
+    },
+
     //Task stuff ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     getTasks({dispatch, commit, state}, listId){
       api.get('/api/tasks/'+listId)
@@ -203,6 +210,10 @@ export default new vuex.Store({
            dispatch('getTasks', task.listId)
           // commit('setBoard', res.data)
         }).catch(err => console.log(err))
+    },
+
+    editTask({dispatch, commit, state}, task){
+
     },
     //Comment Stuff ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     getComments({dispatch, commit, state}, taskId){
