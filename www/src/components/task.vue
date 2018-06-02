@@ -31,9 +31,11 @@
    </div>
 
 <div v-for="task in tasks">
-{{task.title}}
-<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownlist" data-toggle="dropdown">Change List</button>
+  <hr>
+<h3>{{task.title}}</h3>
+<hr>
+<div class="dropdown">
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <!--  -->
       <a  v-for="list in lists" @click="moveTask(list._id, task)" class="dropdown-item">{{list.title}}</a>
@@ -41,7 +43,8 @@
 </div>
 </div>
 <comments :listId="listId" :taskId="task._id"></comments>
-<button @click="deleteTask(task)">X</button>
+<button class="btn" @click="deleteTask(task)">X</button>
+<hr>
 </div>
   </div>
 </template>
@@ -119,7 +122,35 @@ import comments from "./comment.vue"
 </script>
 
 <style scoped>
-    .task{
-      background-color:lightblue;
-    }
+    .card {
+    text-align: center;
+    margin-top: 2rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    background: -webkit-radial-gradient(#a1cfbf,#6eadab);
+    color: #384259;
+  }
+  .btn{
+    margin-top: 1.5rem;
+    margin-right:1rem;
+    border-radius: 1rem;
+    background: #83ac9d;
+    border: solid .5rem #4c8180;
+    color:#384259;
+    font-weight: 30px
+  }
+  .modal-header{
+    background: #384259
+  }
+  .modal-body{
+  background: #384259
+  }
+  .modal-footer{
+background: #384259
+  }
+  .textarea{
+    background: #7ac7c4
+  }
+  .title{
+    background: #c4edde
+  }
   </style>

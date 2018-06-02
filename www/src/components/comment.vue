@@ -20,7 +20,7 @@
          <div class="modal-body">
             <form @submit.prevent="addComment(newComment)">
                 <input type="text" v-model="newComment.title">
-                <button type="submit">Create Comment</button>
+                <button class="btn" type="submit">Create Comment</button>
               </form> 
          </div>
          <div class="modal-footer">
@@ -36,7 +36,7 @@
 
     <div v-for="comment in comments">
       comment: {{comment.title}}
-      <button class="btn-danger" @click="deleteComment(comment)">x</button>
+      <button class="btn" @click="deleteComment(comment)">X</i></button>
     </div>
   </div>
 </template>
@@ -94,10 +94,38 @@
     }
   }
 
-</script >
+</script>
 
 <style scoped>
-  .comment{
-    background-color: rgb(184, 91, 57);
-  }
+    .card {
+      text-align: center;
+      margin-top: 2rem;
+      border-radius: 1rem 1rem 1rem 1rem;
+      background: -webkit-radial-gradient(#c4edde,#84d3d0);
+      color: #384259;
+    }
+    .btn{
+      margin-top: 1.5rem;
+      margin-right:1rem;
+      border-radius: 1rem;
+      background: #c4edde;
+      border: solid .5rem #7ac7c4;
+      color:#384259;
+      font-weight: 30px
+    }
+    .modal-header{
+      background: #384259
+    }
+    .modal-body{
+    background: #384259
+    }
+    .modal-footer{
+  background: #384259
+    }
+    .textarea{
+      background: #7ac7c4
+    }
+    .title{
+      background: #c4edde
+    }
 </style>

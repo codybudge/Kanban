@@ -55,5 +55,19 @@
   }
 </script>
 
-<style>
+<style scoped>
+   .container-fluid{
+    background: -webkit-linear-gradient( #791929,#af273d)
+  }
+  .nav-item{
+    color: #384259;
+   margin-right:1rem
+  }
+  .btn{
+    margin-right:1rem;
+    border-radius:1rem 5rem 1rem 2em;
+    background: #c4edde;
+    border: solid .5rem #384259 ;
+    
+  }
 </style>

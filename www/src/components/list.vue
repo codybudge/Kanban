@@ -16,38 +16,42 @@
            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">&times;</span>
            </button>
-         </div>
+          </div>
+          
          <div class="modal-body">
             <form @submit.prevent="addList(newList)">
-                <input type="text" v-model="newList.title" placeholder="Title" required>
+                <input class="title" type="text" v-model="newList.title" placeholder="Title" required>
                 <br>
-                <textarea v-model="newList.body" placeholder="Your List description here" cols="22" rows="5"></textarea>
+                <textarea class="textarea" v-model="newList.body" placeholder="Your List description here" cols="22" rows="5"></textarea>
                 <br>
-                <button type="submit">Submit</button>
+                <button class="btn" type="submit">Submit</button>
               </form>
          </div>
          <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="button" class="btn" data-dismiss="modal">Close</button>
            
          </div>
        </div>
      </div>
    </div>
-
+   <div class="card-columns">
     <div class="card list" v-for="list in lists">
       <div class="card-title">
+        
         <h4>{{list.title}}</h4>
+        
       </div>
       <div class="card-body">
         <h5>{{list.body}}</h5>
-        tasks here
+        <hr>
         <tasks :listId="list._id"></tasks>
       </div>
       <div class="card-text">
+        <hr>
         <p>{{list.userName}}</p>
-        <button @click="deleteList(list._id)">Destroy</button>
+        <button class="btn" @click="deleteList(list._id)">Destroy</button>
       </div>
-
+      </div>
     </div>
 
 
@@ -105,7 +109,37 @@ import tasks from './task.vue'
 </script>
 
 <style scoped>
-    .list{
-      background-color: rgb(66, 133, 66);
-    }
+    .card {
+    text-align: center;
+    margin-top: 2rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    background: -webkit-radial-gradient(#c4edde,#84d3d0);
+    color: #384259;
+  }
+  .btn{
+    margin-top: 1.5rem;
+    margin-right:1rem;
+    border-radius: 1rem;
+    background: #c4edde;
+    border: solid .5rem #7ac7c4;
+    color:#384259;
+    font-weight: 30px
+  }
+  .modal-header{
+    background: #384259
+  }
+  .modal-body{
+  background: #384259
+  }
+  .modal-footer{
+background: #384259
+  }
+  .textarea{
+    background: #7ac7c4
+  }
+  .title{
+    background: #c4edde
+  }
+
+
   </style>

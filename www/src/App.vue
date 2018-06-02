@@ -12,6 +12,6 @@ export default {
 
 <style>
 #app {
-
+  font-family: 'Raleway', sans-serif;
 }
 </style>
